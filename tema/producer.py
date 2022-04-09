@@ -42,15 +42,19 @@ class Producer(Thread):
         pass
 
     def run(self):
-        self.producer_id = self.marketplace.register_producer()
-        print('Hello producer! ' , self.products[0])
+        producer_id = self.marketplace.register_producer()
+        # print('Hello producer! ' , self.products[0])
         while self.kwargs['daemon'] is True:
             for product in self.products:
                 count_product = product[1]
                 while count_product > 0:
-                    if  self.marketplace.publish((self.producer_id, product)) is True:
+                    # print("hello", count_product)
+                    if  self.marketplace.publish(producer_id, product[0]) is True:
                         count_product -= 1
                         time.sleep(product[2])
+                        # print("product added")
                     else:
-                        time.sleep(this.republish_wait_time)
+                        # print("no place anymore")
+                        time.sleep(self.republish_wait_time)
 
+       # self.marketplace.publish(producer_id, self.products[0][0])

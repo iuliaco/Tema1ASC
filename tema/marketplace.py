@@ -26,7 +26,7 @@ class Marketplace:
         self.lock = RLock()
         self.carts = []
         self.shop_items = []
-        print("hello market", queue_size_per_producer)
+        self.products_from_producer = []
         
 
     def register_producer(self):
@@ -36,6 +36,7 @@ class Marketplace:
         self.lock.acquire()
         var = self.producer_size
         self.producer_size += 1
+        self.products_from_producer.append(0)
         self.lock.release()
         return var
 
@@ -51,7 +52,17 @@ class Marketplace:
 
         :returns True or False. If the caller receives False, it should wait and then try again.
         """
-        pass
+        if self.products_from_producer[producer_id] == self.queue_size_per_producer:
+            return False
+        else: 
+            prod = {}
+            prod["id"] = producer_id
+            prod["product"] = product   
+            
+            
+            self.products_from_producer[producer_id] += 1
+            self.shop_items.append(prod)
+            return True
 
     def new_cart(self):
         """
@@ -62,6 +73,7 @@ class Marketplace:
         self.lock.acquire()
         var = self.consumer_size
         self.consumer_size += 1
+        self.carts.append([])
         self.lock.release()
         return var
 
@@ -79,9 +91,19 @@ class Marketplace:
 
         :returns True or False. If the caller receives False, it should wait and then try again
         """
-
-
-        pass
+        done = 0
+        self.lock.acquire()
+        for prod in self.shop_items:
+            if prod["product"] == product:
+                self.carts[cart_id].append(prod)
+                done = 1
+                self.shop_items.remove(prod)
+                break
+        self.lock.release()
+        if done == 1:
+            return True
+        else:
+            return False
 
     def remove_from_cart(self, cart_id, product):
         """
@@ -93,7 +115,11 @@ class Marketplace:
         :type product: Product
         :param product: the product to remove from cart
         """
-        pass
+        for prod in self.carts[cart_id]:
+            if prod["product"] == product:
+                self.shop_items.append(prod)
+                self.carts[cart_id].remove(prod)
+                break
 
     def place_order(self, cart_id):
         """
@@ -102,4 +128,11 @@ class Marketplace:
         :type cart_id: Int
         :param cart_id: id cart
         """
-        pass
+        final_list = []
+        # print("final")
+        for prod in self.carts[cart_id]:
+            self.products_from_producer[prod["id"]] -= 1
+            final_list.append(prod["product"])
+
+        return final_list
+        
