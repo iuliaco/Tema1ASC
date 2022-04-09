@@ -9,6 +9,7 @@ March 2021
 from threading import Thread
 import time
 
+
 class Producer(Thread):
     """
     Class that represents a producer.
@@ -39,6 +40,11 @@ class Producer(Thread):
         self.republish_wait_time = republish_wait_time
         self.kwargs = kwargs
 
+    """
+    Asignez producatorului un id si cat timp mai sunt consumeri iterez prin lista
+    cu produsele mele si adaug produsul in supermarket de cate ori scrie in cantitate
+    iar daca nu mai pot astept ca sa vad daca intre timp mi se elibereaza vreun loc
+    """
 
     def run(self):
         producer_id = self.marketplace.register_producer()
@@ -46,9 +52,8 @@ class Producer(Thread):
             for product in self.products:
                 count_product = product[1]
                 while count_product > 0:
-                    if  self.marketplace.publish(producer_id, product[0]) is True:
+                    if self.marketplace.publish(producer_id, product[0]) is True:
                         count_product -= 1
                         time.sleep(product[2])
                     else:
                         time.sleep(self.republish_wait_time)
-

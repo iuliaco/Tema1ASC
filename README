@@ -1,0 +1,24 @@
+Corcodel Maria Iulia, 334CC
+
+                Tema 1 ASC, Marketplace
+
+    1. Pentru a realiza tema am folosit o abordare bazata pe un loc reentrant,
+pentru a putea realiza operatiile care aveau probleme de sincronizare intr-o
+maniera thread-safe. Astfel, m-am folosit de marketplace pentru a media
+problema de multiple producer multiple consumer, si am incercat sa creez
+o lista cu produsele curente din supermarket in care am tinut si id ul 
+producatorului pentru a putea depista provenienta mai usor, o lista de liste
+pentru a putea reprezenta produsele adaugate in fiecare cart. 
+    Ulterior, fiecare producer a produs produsele din lista acestuia adaugate
+in supermartet si fiecare consumer si-a luat din supermarket si si-a adaugat
+in cartul lui, iterand pe produsele din supermarket cu un lock pe acestea
+pentru a putea sa ne asiguram ca 2 consumeri nu iau acelasi produs in 
+acelasi timp si il adauga in cos. La final se genereaza o lista care este
+printata in fiecare consumer cu produsele cumparate de acesta.
+    Considier ca implementarea este eficienta, ca este completa, si ca tema
+a fost utila. Mi-a luat aproximativ 12 ore rezolvarea completa a temei, cu 
+tot cu comentarii si readme. Am realizat loggerul exact cum este descris in 
+cerinta, si am inclus si unitteste pentru fiecare functie din supermarket.
+    De asemenea am si folderul .git pentru cele 5 puncte bonus cu tot cu
+versionarea aferenta. M-am folosit in rezolvarea temei de laboratorul 3 la ASC,
+dar si de laboratorul 2.

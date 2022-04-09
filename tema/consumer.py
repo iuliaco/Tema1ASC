@@ -40,9 +40,15 @@ class Consumer(Thread):
         self.kwargs = kwargs
 
     def run(self):
-
+        """
+        Iterez prin carturile consumerului respectiv iar fiecare cart primeste un id asignat
+        ulterior pentru fiecare cart iterez prin produsele acestuia si vad tipul operatiei
+        daca e de adaugat verific daca exista produsul in supermarket si daca exista si pot sa-l
+        adaug scad din cantitatea care trebuie cumparata, iar daca nu exista astept putin ca sa
+        vad daca apare. Daca operatia e de stergere atunci in functie de cantitate sterf produsul
+        din cart. La final ii dau place order si afisez ce am cumparat
+        """
         for cart in self.carts:
-            # print('Hello consumer! ' , cart)
             consumer_id = self.marketplace.new_cart()
             for product in cart:
                 size = product["quantity"]
@@ -50,9 +56,7 @@ class Consumer(Thread):
                     while size > 0:
                         if self.marketplace.add_to_cart(consumer_id, product["product"]) is True:
                             size -= 1
-                            # print("luat")
                         else:
-                            # print("nu")
                             time.sleep(self.retry_wait_time)
 
                 else:
@@ -60,9 +64,7 @@ class Consumer(Thread):
                         self.marketplace.remove_from_cart(
                             consumer_id, product["product"])
                         size -= 1
-                        # print("sterg")
 
-            # print("gata")
             final_products = self.marketplace.place_order(consumer_id)
             for product in final_products:
                 print(self.kwargs['name'], "bought", product, flush=True)

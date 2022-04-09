@@ -217,12 +217,14 @@ class TestMarketplace(unittest.TestCase):
     Clasa de test in care mockuiesc un marketplace si ma folosesc de el
     pentru a testa fiecare functie
     """
+
     def setUp(self):
         self.marketplace = Marketplace(3)
 
     """
     Testez inregistrarea producatorilor si ma asigur ca se returneaza mereu id ul corect
     """
+
     def test_register_producer(self):
         self.assertEqual(self.marketplace.register_producer(), 0)
         self.assertEqual(self.marketplace.register_producer(), 1)
@@ -234,6 +236,7 @@ class TestMarketplace(unittest.TestCase):
     """
     Testez inregistrarea carturilor si ma asigur ca se returneaza mereu id ul corect
     """
+
     def test_new_cart(self):
         self.assertEqual(self.marketplace.new_cart(), 0)
         self.assertEqual(self.marketplace.new_cart(), 1)
@@ -246,6 +249,7 @@ class TestMarketplace(unittest.TestCase):
     Testez functia de publish, incerc sa postez la un furnizor 4 produse
     cand limita maxima la coada este de 3 ca sa am si caz de true si caz de false
     """
+
     def test_publish(self):
         self.assertEqual(self.marketplace.register_producer(), 0)
         self.assertEqual(self.marketplace.register_producer(), 1)
@@ -263,6 +267,7 @@ class TestMarketplace(unittest.TestCase):
     Adaug in magazine 3 produse si incerc sa adaug 3 produse in cart,
     dintre care unul inexistent
     """
+
     def test_add_to_cart(self):
         self.assertEqual(self.marketplace.register_producer(), 0)
         self.assertEqual(self.marketplace.register_producer(), 1)
@@ -285,6 +290,7 @@ class TestMarketplace(unittest.TestCase):
     observ ca lungimea cartului consumerului care a realizat actiunea 
     de remove a scazut cu 1
     """
+
     def test_remove_from_cart(self):
         self.assertEqual(self.marketplace.register_producer(), 0)
         self.assertEqual(self.marketplace.register_producer(), 1)
@@ -313,6 +319,7 @@ class TestMarketplace(unittest.TestCase):
     contine produsele adaugate in cos, si dupa incerc sa fac furnizorul care avea
     produse din cartul meu sa adauge inapoi produse acum ca acesta poate
     """
+
     def test_place_order(self):
         self.assertEqual(self.marketplace.register_producer(), 0)
         self.assertEqual(self.marketplace.register_producer(), 1)
