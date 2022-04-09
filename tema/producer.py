@@ -39,22 +39,16 @@ class Producer(Thread):
         self.republish_wait_time = republish_wait_time
         self.kwargs = kwargs
 
-        pass
 
     def run(self):
         producer_id = self.marketplace.register_producer()
-        # print('Hello producer! ' , self.products[0])
         while self.kwargs['daemon'] is True:
             for product in self.products:
                 count_product = product[1]
                 while count_product > 0:
-                    # print("hello", count_product)
                     if  self.marketplace.publish(producer_id, product[0]) is True:
                         count_product -= 1
                         time.sleep(product[2])
-                        # print("product added")
                     else:
-                        # print("no place anymore")
                         time.sleep(self.republish_wait_time)
 
-       # self.marketplace.publish(producer_id, self.products[0][0])

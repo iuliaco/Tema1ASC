@@ -9,6 +9,7 @@ March 2021
 from threading import Thread
 import time
 
+
 class Consumer(Thread):
     """
     Class that represents a consumer.
@@ -47,7 +48,7 @@ class Consumer(Thread):
                 size = product["quantity"]
                 if product["type"] == "add":
                     while size > 0:
-                        if self.marketplace.add_to_cart(consumer_id, product["product"]) is True: 
+                        if self.marketplace.add_to_cart(consumer_id, product["product"]) is True:
                             size -= 1
                             # print("luat")
                         else:
@@ -56,12 +57,12 @@ class Consumer(Thread):
 
                 else:
                     while size > 0:
-                        self.marketplace.remove_from_cart(consumer_id, product["product"])
+                        self.marketplace.remove_from_cart(
+                            consumer_id, product["product"])
                         size -= 1
                         # print("sterg")
-                    
+
             # print("gata")
-            final_products = self.marketplace.place_order(consumer_id) 
+            final_products = self.marketplace.place_order(consumer_id)
             for product in final_products:
                 print(self.kwargs['name'], "bought", product, flush=True)
-
